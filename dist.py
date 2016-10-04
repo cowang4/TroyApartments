@@ -18,6 +18,7 @@
 """
 
 import math
+from numbers import Number
 
 def recalculate_coordinate(val,  _as=None):
   """
@@ -59,14 +60,16 @@ def points2distance(start,  end):
     (52.0, 13.0, 55.998000000008687)
     which, not accidentally, is the lattitude of Warsaw, Poland.
   """
-  #start_long = math.radians(recalculate_coordinate(start[0],  'deg'))
-  #start_latt = math.radians(recalculate_coordinate(start[1],  'deg'))
-  #end_long = math.radians(recalculate_coordinate(end[0],  'deg'))
-  #end_latt = math.radians(recalculate_coordinate(end[1],  'deg'))
-  start_long = start[0]
-  start_latt = start[1]
-  end_long = end[0]
-  end_latt = end[1]
+  if isinstance(start[0], Number):
+      start_long = start[0]
+      start_latt = start[1]
+      end_long = end[0]
+      end_latt = end[1]
+  else:
+    start_long = math.radians(recalculate_coordinate(start[0],  'deg'))
+    start_latt = math.radians(recalculate_coordinate(start[1],  'deg'))
+    end_long = math.radians(recalculate_coordinate(end[0],  'deg'))
+    end_latt = math.radians(recalculate_coordinate(end[1],  'deg'))
   d_latt = end_latt - start_latt
   d_long = end_long - start_long
   a = math.sin(d_latt/2)**2 + math.cos(start_latt) * math.cos(end_latt) * math.sin(d_long/2)**2
