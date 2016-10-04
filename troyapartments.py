@@ -16,13 +16,6 @@ for result in results:
         troy_results.append(result)
 
 RPI_coords = (42.729376, -73.677912)
-for result in troy_results:
-    if result['geotag'] is not None:
-        print result
-        print result['geotag']
-        distance = dist.points2distance(result['geotag'], RPI_coords)
-        result['dist'] = distance
-        print distance
 
 with open('apartments.csv', 'w') as csvfile:
     fieldnames = ['name', 'has_image', 'url', 'has_map', 'price', 'geotag', 'where', 'id', 'datetime', 'dist']
@@ -30,4 +23,7 @@ with open('apartments.csv', 'w') as csvfile:
 
     writer.writeheader()
     for result in troy_results:
+        if result['geotag'] is not None:
+            distance = dist.points2distance(result['geotag'], RPI_coords)
+            result['dist'] = distance
         writer.writerow(result)
